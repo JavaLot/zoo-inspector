@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -27,7 +27,7 @@ import javax.swing.ImageIcon;
 import org.apache.zookeeper.inspector.logger.LoggerFactory;
 
 /**
- * @see http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
+ * <a href="https://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html">Icon Naming Specification</a>
  * I tried to take icons that are available in the Tango icon set
  */
 public class IconResource {
@@ -54,14 +54,14 @@ public class IconResource {
     private static final String DEFAULT_SIZE = "16x16";
     private static final String FALLBACK_ICON = "face-surprise";
 
-    // compare http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
+    // compare https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
     private static final String[] DEFAULT_XDG_DATA_DIRS = new String[]{
         "/usr/local/share",
         "/usr/share"
     };
 
-    private String theme = DEFAULT_THEME;
-    private String size = DEFAULT_SIZE;
+    private final String theme = DEFAULT_THEME;
+    private final String size = DEFAULT_SIZE;
 
     public URL find(String name) {
         String iconPath = buildIconPath(name);

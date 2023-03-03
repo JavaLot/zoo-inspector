@@ -1,20 +1,17 @@
 package org.apache.zookeeper.inspector.gui.actions;
 
-import org.apache.zookeeper.inspector.gui.ZooInspectorPanel;
 import org.apache.zookeeper.inspector.gui.ZooInspectorTreeViewer;
 import org.apache.zookeeper.inspector.manager.ZooInspectorManager;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.util.List;
 
 public class AddNodeAction extends AbstractAction {
 
-    private JPanel panel;
-    private ZooInspectorTreeViewer treeViewer;
-    private ZooInspectorManager zooInspectorManager;
+    private final JPanel panel;
+    private final ZooInspectorTreeViewer treeViewer;
+    private final ZooInspectorManager zooInspectorManager;
 
     public AddNodeAction(JPanel parentPanel,
                          ZooInspectorTreeViewer treeViewer,
@@ -22,7 +19,6 @@ public class AddNodeAction extends AbstractAction {
         this.panel = parentPanel;
         this.treeViewer = treeViewer;
         this.zooInspectorManager = zooInspectorManager;
-        //putValue(MNEMONIC_KEY, KeyEvent.VK_N);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -37,10 +33,8 @@ public class AddNodeAction extends AbstractAction {
                 SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
 
                     @Override
-                    protected Boolean doInBackground() throws Exception {
-                        return zooInspectorManager
-                                .createNode(selectedNodes.get(0),
-                                        nodeName);
+                    protected Boolean doInBackground() {
+                        return zooInspectorManager.createNode(selectedNodes.get(0),nodeName);
                     }
 
                     @Override
@@ -51,8 +45,7 @@ public class AddNodeAction extends AbstractAction {
                 worker.execute();
             }
         } else {
-            JOptionPane.showMessageDialog(panel,
-                    "Please select 1 parent node for the new node.");
+            JOptionPane.showMessageDialog(panel,"Please select 1 parent node for the new node.");
         }
     }
 }

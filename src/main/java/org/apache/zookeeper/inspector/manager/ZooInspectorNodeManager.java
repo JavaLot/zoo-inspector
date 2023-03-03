@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -29,5 +29,5 @@ public interface ZooInspectorNodeManager extends ZooInspectorReadOnlyManager {
      *            - the data to set on the this node
      * @return true if the data for the node was successfully updated
      */
-    public boolean setData(String nodePath, String data);
+    boolean setData(String nodePath, String data);
 }

@@ -20,7 +20,7 @@ public class NodesCache {
 
     private final LoadingCache<String, List<String>> nodes;
 
-    private ZooKeeper zooKeeper;
+    private final ZooKeeper zooKeeper;
 
     public NodesCache(ZooKeeper zooKeeper) {
         this.zooKeeper = zooKeeper;
@@ -30,7 +30,7 @@ public class NodesCache {
                 .build(
                         new CacheLoader<String, List<String>>() {
                             @Override
-                            public List<String> load(String nodePath) throws Exception {
+                            public List<String> load(String nodePath)  {
                                 return getChildren(nodePath);
                             }
                         }
@@ -54,7 +54,7 @@ public class NodesCache {
     }
 
     public String getNodeChild(String nodePath, int index) {
-        List<String> childNodes = null;
+        List<String> childNodes;
         try {
             childNodes = nodes.get(nodePath);
             return childNodes.get(index);

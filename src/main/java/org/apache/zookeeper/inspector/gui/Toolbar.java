@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -29,7 +29,7 @@ public class Toolbar {
 
     private final IconResource iconResource;
     private final JToolBar toolbar = new JToolBar();
-    private final Map<Button, JButton> buttons = new HashMap<Button, JButton>();
+    private final Map<Button, JButton> buttons = new HashMap<>();
 
     private static final Button[] buttonsToToggle = new Button[] {
         Button.connect, Button.disconnect, Button.refresh, Button.addNode, Button.deleteNode
@@ -63,7 +63,7 @@ public class Toolbar {
         }
     }
 
-    public static enum Button {
+    public enum Button {
         connect("Connect",IconResource.ICON_START,true),
         disconnect("Disconnect",IconResource.ICON_STOP,false),
         refresh("Refresh",IconResource.ICON_REFRESH,false),
@@ -72,9 +72,9 @@ public class Toolbar {
         nodeViewers("Change Node Viewers",IconResource.ICON_ChangeNodeViewers,true),
         about("About ZooInspector",IconResource.ICON_HELP_ABOUT,true);
 
-        private String toolTip;
-        private String icon;
-        private boolean enabled;
+        private final String toolTip;
+        private final String icon;
+        private final boolean enabled;
 
         Button(String toolTip, String icon, boolean enabled) {
             this.toolTip = toolTip;

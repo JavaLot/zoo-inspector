@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -26,12 +26,12 @@ import org.apache.zookeeper.inspector.gui.nodeviewer.ZooInspectorNodeViewer;
  */
 public interface NodeViewersChangeListener {
     /**
-     * Called when the node viewers configuration is changed (i.e node viewers
+     * Called when the node viewers configuration is changed (i.e. node viewers
      * are added, removed or the order of the node viewers is changed)
      * 
      * @param newViewers
      *            - a {@link List} of {@link ZooInspectorNodeViewer}s which are
      *            to be shown
      */
-    public void nodeViewersChanged(List<ZooInspectorNodeViewer> newViewers);
+    void nodeViewersChanged(List<ZooInspectorNodeViewer> newViewers);
 }

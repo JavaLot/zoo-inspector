@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -31,19 +31,18 @@ import javax.swing.JTextField;
  * A Manager for all interactions between the application and the Zookeeper
  * instance
  */
-public interface ZooInspectorManager extends ZooInspectorNodeManager,
-        ZooInspectorNodeTreeManager {
+public interface ZooInspectorManager extends ZooInspectorNodeManager, ZooInspectorNodeTreeManager {
 
     /**
      * @param connectionProps
      * @return true if successfully connected
      */
-    public boolean connect(Properties connectionProps);
+    boolean connect(Properties connectionProps);
 
     /**
      * @return true if successfully disconnected
      */
-    public boolean disconnect();
+    boolean disconnect();
 
     /**
      * @return a {@link Pair} containing the following:
@@ -58,7 +57,7 @@ public interface ZooInspectorManager extends ZooInspectorNodeManager,
      *         <ul>
      * 
      */
-    public Pair<Map<String, List<String>>, Map<String, String>> getConnectionPropertiesTemplate();
+    Pair<Map<String, List<String>>, Map<String, String>> getConnectionPropertiesTemplate();
 
     /**
      * @param selectedNodes
@@ -66,14 +65,14 @@ public interface ZooInspectorManager extends ZooInspectorNodeManager,
      * @param nodeListener
      *            - the node listener for this watcher
      */
-    public void addWatchers(Collection<String> selectedNodes,
+    void addWatchers(Collection<String> selectedNodes,
             NodeListener nodeListener);
 
     /**
      * @param selectedNodes
      *            - the nodes to remove the watchers from
      */
-    public void removeWatchers(Collection<String> selectedNodes);
+    void removeWatchers(Collection<String> selectedNodes);
 
     /**
      * @param selectedFile
@@ -84,7 +83,7 @@ public interface ZooInspectorManager extends ZooInspectorNodeManager,
      * @throws IOException
      *             - if the configuration file cannot be loaded
      */
-    public List<String> loadNodeViewersFile(File selectedFile)
+    List<String> loadNodeViewersFile(File selectedFile)
             throws IOException;
 
     /**
@@ -95,7 +94,7 @@ public interface ZooInspectorManager extends ZooInspectorNodeManager,
      * @throws IOException
      *             - if the configuration file cannot be saved
      */
-    public void saveNodeViewersFile(File selectedFile,
+    void saveNodeViewersFile(File selectedFile,
             List<String> nodeViewersClassNames) throws IOException;
 
     /**
@@ -104,7 +103,7 @@ public interface ZooInspectorManager extends ZooInspectorNodeManager,
      * @throws IOException
      *             - if the default configuration file cannot be loaded
      */
-    public void setDefaultNodeViewerConfiguration(
+    void setDefaultNodeViewerConfiguration(
             List<String> nodeViewersClassNames) throws IOException;
 
     /**
@@ -120,13 +119,13 @@ public interface ZooInspectorManager extends ZooInspectorNodeManager,
      *            - the connection properties last used to connect to the
      *            zookeeeper instance
      */
-    public void setLastConnectionProps(Properties connectionProps);
+    void setLastConnectionProps(Properties connectionProps);
 
     /**
      * @return last connection Properties - the connection properties last used
      *         to connect to the zookeeeper instance
      */
-    public Properties getLastConnectionProps();
+    Properties getLastConnectionProps();
 
     /**
      * @param props
@@ -134,6 +133,6 @@ public interface ZooInspectorManager extends ZooInspectorNodeManager,
      * @throws IOException
      *             - if the default configuration file cannot be saved
      */
-    public void saveDefaultConnectionFile(Properties props) throws IOException;
+    void saveDefaultConnectionFile(Properties props) throws IOException;
 
 }

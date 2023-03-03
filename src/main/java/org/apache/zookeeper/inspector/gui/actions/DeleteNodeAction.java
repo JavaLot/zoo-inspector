@@ -5,15 +5,13 @@ import org.apache.zookeeper.inspector.manager.ZooInspectorManager;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.util.List;
 
 public class DeleteNodeAction extends AbstractAction {
 
-    private JPanel parentPanel;
-    private ZooInspectorTreeViewer treeViewer;
-    private ZooInspectorManager zooInspectorManager;
+    private final JPanel parentPanel;
+    private final ZooInspectorTreeViewer treeViewer;
+    private final ZooInspectorManager zooInspectorManager;
 
     public DeleteNodeAction(JPanel parentPanel,
                             ZooInspectorTreeViewer treeViewer,
@@ -43,10 +41,9 @@ public class DeleteNodeAction extends AbstractAction {
                 SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
 
                     @Override
-                    protected Boolean doInBackground() throws Exception {
+                    protected Boolean doInBackground() {
                         for (String nodePath : selectedNodes) {
-                            zooInspectorManager
-                                    .deleteNode(nodePath);
+                            zooInspectorManager.deleteNode(nodePath);
                         }
                         return true;
                     }
@@ -56,6 +53,7 @@ public class DeleteNodeAction extends AbstractAction {
                         treeViewer.refreshView();
                     }
                 };
+
                 worker.execute();
             }
         }

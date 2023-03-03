@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -83,10 +83,8 @@ public class NodeViewerACL extends ZooInspectorNodeViewer {
             SwingWorker<List<Map<String, String>>, Void> worker = new SwingWorker<List<Map<String, String>>, Void>() {
 
                 @Override
-                protected List<Map<String, String>> doInBackground()
-                        throws Exception {
-                    return NodeViewerACL.this.zooInspectorManager
-                            .getACLs(NodeViewerACL.this.selectedNode);
+                protected List<Map<String, String>> doInBackground() {
+                    return NodeViewerACL.this.zooInspectorManager.getACLs(NodeViewerACL.this.selectedNode);
                 }
 
                 @Override
@@ -94,12 +92,7 @@ public class NodeViewerACL extends ZooInspectorNodeViewer {
                     List<Map<String, String>> acls = null;
                     try {
                         acls = get();
-                    } catch (InterruptedException e) {
-                        acls = new ArrayList<Map<String, String>>();
-                        LoggerFactory.getLogger().error(
-                                "Error retrieving ACL Information for node: "
-                                        + NodeViewerACL.this.selectedNode, e);
-                    } catch (ExecutionException e) {
+                    } catch (InterruptedException | ExecutionException e) {
                         acls = new ArrayList<Map<String, String>>();
                         LoggerFactory.getLogger().error(
                                 "Error retrieving ACL Information for node: "

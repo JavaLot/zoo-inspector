@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -21,8 +21,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JButton;
@@ -66,11 +64,7 @@ public class ZooInspectorAboutDialog extends JDialog {
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         JButton okButton = new JButton("OK");
-        okButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                ZooInspectorAboutDialog.this.dispose();
-            }
-        });
+        okButton.addActionListener(e -> ZooInspectorAboutDialog.this.dispose());
         buttonsPanel.add(okButton);
         this.add(panel, BorderLayout.CENTER);
         this.add(buttonsPanel, BorderLayout.SOUTH);

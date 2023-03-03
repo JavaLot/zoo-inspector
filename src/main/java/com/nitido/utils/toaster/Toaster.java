@@ -1,4 +1,4 @@
-/**
+/*
  * This java file is copyright by Daniele Piras ("danielepiras80", no email known) released under the
  * Apache Software License 2.0. It has been downloaded in december 2009 from the CVS web interface
  * of the sourceforge project http://sourceforge.net/projects/jtoaster/ . The web interface to CVS
@@ -6,7 +6,7 @@
  *
  */
 
-/**
+/*
  * Java Toaster is a java utility class for your swing applications
  * that show an animate box coming from the bottom of your screen
  * with a notification message and/or an associated image
@@ -47,12 +47,11 @@ import javax.swing.border.*;
  * @author daniele piras
  *
  */
-public class Toaster
-{
-	// Width of the toster
+public class Toaster {
+	// Width of the toaster
 	private int toasterWidth = 300;
 
-	// Height of the toster
+	// Height of the toaster
 	private int toasterHeight = 80;
 
 	// Step for the toaster
@@ -92,8 +91,6 @@ public class Toaster
 	// method always on top start only SINCE JDK 5 !
 	boolean useAlwaysOnTop = true;
 
-	private static final long serialVersionUID = 1L;
-
 	/**
 	 * Constructor to initialized toaster component...
 	 *
@@ -110,12 +107,9 @@ public class Toaster
 		messageColor = Color.BLACK;
 		useAlwaysOnTop = true;
 		// Verify AlwaysOnTop Flag...
-		try
-		{
-		  JWindow.class.getMethod( "setAlwaysOnTop", new Class[] { Boolean.class } );
-		}
-		catch( Exception e )
-		{
+		try {
+			JWindow.class.getMethod( "setAlwaysOnTop", new Class[] { Boolean.class } );
+		} catch( Exception e ) {
 			useAlwaysOnTop = false;
 		}
 
@@ -132,10 +126,10 @@ public class Toaster
 		private static final long serialVersionUID = 1L;
 
 		// Label to store Icon
-		private JLabel iconLabel = new JLabel();
+		private final JLabel iconLabel = new JLabel();
 
 		// Text area for the message
-		private JTextArea message = new JTextArea();
+		private final JTextArea message = new JTextArea();
 
 
 
@@ -204,8 +198,8 @@ public class Toaster
 		 * Animate vertically the toaster. The toaster could be moved from bottom
 		 * to upper or to upper to bottom
 		 * @param posx
-		 * @param fromy
-		 * @param toy
+		 * @param fromY
+		 * @param toY
 		 * @throws InterruptedException
 		 */
 		protected void animateVertically( int posx, int fromY, int toY ) throws InterruptedException
@@ -240,7 +234,7 @@ public class Toaster
 						.getLocalGraphicsEnvironment();
 				Rectangle screenRect = ge.getMaximumWindowBounds();
 
-				int screenHeight = (int) screenRect.height;
+				int screenHeight = screenRect.height;
 
 				int startYPosition;
 				int stopYPosition;
@@ -253,7 +247,7 @@ public class Toaster
 				maxToasterInSceen = screenHeight / toasterHeight;
 
 
-				int posx = (int) screenRect.width - toasterWidth - 1;
+				int posx = screenRect.width - toasterWidth - 1;
 
 				toaster.setLocation(posx, screenHeight);
 				toaster.setVisible(true);

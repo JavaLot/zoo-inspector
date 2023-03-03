@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -32,6 +32,5 @@ public interface NodeListener {
      *            - a {@link Map} containing any other information about this
      *            event
      */
-    public void processEvent(String nodePath, String eventType,
-            Map<String, String> eventInfo);
+    void processEvent(String nodePath, String eventType, Map<String, String> eventInfo);
 }

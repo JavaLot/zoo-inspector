@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -168,7 +168,7 @@ public class ZooKeeperRetry extends ZooKeeper {
                         "ZooKeeper connection lost.  Trying to reconnect.");
             }
         } while (!closed && (limit == -1 || count++ < limit));
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 
     @Override
@@ -183,7 +183,7 @@ public class ZooKeeperRetry extends ZooKeeper {
                         "ZooKeeper connection lost.  Trying to reconnect.");
             }
         } while (!closed && (limit == -1 || count++ < limit));
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 
     @Override

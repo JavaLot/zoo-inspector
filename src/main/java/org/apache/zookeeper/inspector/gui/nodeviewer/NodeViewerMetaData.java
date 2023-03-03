@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -38,8 +38,8 @@ import org.apache.zookeeper.inspector.logger.LoggerFactory;
 import org.apache.zookeeper.inspector.manager.ZooInspectorNodeManager;
 
 /**
- * A node viewer for displaying the meta data for the currently selected node.
- * The meta data is essentially the information from the {@link Stat} for the
+ * A node viewer for displaying the metadata for the currently selected node.
+ * The metadata is essentially the information from the {@link Stat} for the
  * node
  */
 public class NodeViewerMetaData extends ZooInspectorNodeViewer {

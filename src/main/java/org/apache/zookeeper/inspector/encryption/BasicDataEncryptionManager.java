@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -30,7 +30,7 @@ public class BasicDataEncryptionManager implements DataEncryptionManager {
      * (byte[])
      */
     public String decryptData(byte[] encrypted) throws Exception {
-        return new String(encrypted);
+        return encrypted != null? new String(encrypted): null;
     }
 
     /*
@@ -46,5 +46,4 @@ public class BasicDataEncryptionManager implements DataEncryptionManager {
         }
         return data.getBytes();
     }
-
 }
