@@ -51,8 +51,7 @@ public class ZooInspectorAboutDialog extends JDialog {
         JEditorPane aboutPane = new JEditorPane();
         aboutPane.setEditable(false);
         aboutPane.setOpaque(false);
-        java.net.URL aboutURL = ZooInspectorAboutDialog.class
-                .getResource("/about.html");
+        java.net.URL aboutURL = getClass().getResource("/about.html");
         try {
             aboutPane.setPage(aboutURL);
         } catch (IOException e) {
@@ -64,7 +63,7 @@ public class ZooInspectorAboutDialog extends JDialog {
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         JButton okButton = new JButton("OK");
-        okButton.addActionListener(e -> ZooInspectorAboutDialog.this.dispose());
+        okButton.addActionListener(e -> dispose());
         buttonsPanel.add(okButton);
         this.add(panel, BorderLayout.CENTER);
         this.add(buttonsPanel, BorderLayout.SOUTH);

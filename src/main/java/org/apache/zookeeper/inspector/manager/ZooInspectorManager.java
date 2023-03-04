@@ -34,7 +34,7 @@ import javax.swing.JTextField;
 public interface ZooInspectorManager extends ZooInspectorNodeManager, ZooInspectorNodeTreeManager {
 
     /**
-     * @param connectionProps
+     * @param connectionProps  the {@link Properties} for connecting to the zookeeper instance
      * @return true if successfully connected
      */
     boolean connect(Properties connectionProps);
@@ -75,16 +75,11 @@ public interface ZooInspectorManager extends ZooInspectorNodeManager, ZooInspect
     void removeWatchers(Collection<String> selectedNodes);
 
     /**
-     * @param selectedFile
-     *            - the file to load which contains the node viewers
-     *            configuration
-     * @return nodeViewers - the class names of the node viewers from the
-     *         configuration
-     * @throws IOException
-     *             - if the configuration file cannot be loaded
+     * @param selectedFile - the file to load which contains the node viewers configuration
+     * @return nodeViewers - the class names of the node viewers from the configuration
+     * @throws IOException - if the configuration file cannot be loaded
      */
-    List<String> loadNodeViewersFile(File selectedFile)
-            throws IOException;
+    List<String> loadNodeViewersFile(File selectedFile) throws IOException;
 
     /**
      * @param selectedFile

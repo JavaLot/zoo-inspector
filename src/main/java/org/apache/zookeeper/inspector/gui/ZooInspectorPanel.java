@@ -25,8 +25,6 @@ import org.apache.zookeeper.inspector.manager.ZooInspectorManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +35,6 @@ import java.util.concurrent.ExecutionException;
  * The parent {@link JPanel} for the whole application
  */
 public class ZooInspectorPanel extends JPanel implements NodeViewersChangeListener {
-    private final IconResource iconResource;
     private final Toolbar toolbar;
     private final ZooInspectorNodeViewersPanel nodeViewersPanel;
     private final ZooInspectorTreeViewer treeViewer;
@@ -54,7 +51,6 @@ public class ZooInspectorPanel extends JPanel implements NodeViewersChangeListen
      */
     public ZooInspectorPanel(final ZooInspectorManager zooInspectorManager, final IconResource iconResource) {
         this.zooInspectorManager = zooInspectorManager;
-        this.iconResource = iconResource;
         toolbar = new Toolbar(iconResource);
         final ArrayList<ZooInspectorNodeViewer> nodeViewers = new ArrayList<>();
         try {
@@ -71,10 +67,8 @@ public class ZooInspectorPanel extends JPanel implements NodeViewersChangeListen
                     "Error loading default node viewers: " + ex.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
-        nodeViewersPanel = new ZooInspectorNodeViewersPanel(
-                zooInspectorManager, nodeViewers);
-        treeViewer = new ZooInspectorTreeViewer(zooInspectorManager,
-                nodeViewersPanel, iconResource);
+        nodeViewersPanel = new ZooInspectorNodeViewersPanel(zooInspectorManager, nodeViewers);
+        treeViewer = new ZooInspectorTreeViewer(zooInspectorManager, nodeViewersPanel, iconResource);
         this.setLayout(new BorderLayout());
 
         toolbar.addActionListener(Toolbar.Button.connect, e -> {
@@ -82,38 +76,36 @@ public class ZooInspectorPanel extends JPanel implements NodeViewersChangeListen
                     zooInspectorManager.getLastConnectionProps(),
                     zooInspectorManager.getConnectionPropertiesTemplate(),
                     ZooInspectorPanel.this);
+            zicpd.setLocationRelativeTo(this);
             zicpd.setVisible(true);
         });
         toolbar.addActionListener(Toolbar.Button.disconnect, e -> disconnect());
         toolbar.addActionListener(Toolbar.Button.refresh, e -> treeViewer.refreshView());
-        toolbar.addActionListener(Toolbar.Button.addNode,
-                new AddNodeAction(this, treeViewer, zooInspectorManager));
-        toolbar.addActionListener(Toolbar.Button.deleteNode,
-                new DeleteNodeAction(this, treeViewer, zooInspectorManager));
+        toolbar.addActionListener(Toolbar.Button.addNode, new AddNodeAction(this, treeViewer, zooInspectorManager));
+        toolbar.addActionListener(Toolbar.Button.deleteNode, new DeleteNodeAction(this, treeViewer, zooInspectorManager));
 
 
         toolbar.addActionListener(Toolbar.Button.nodeViewers, e -> {
             ZooInspectorNodeViewersDialog nvd = new ZooInspectorNodeViewersDialog(
                     JOptionPane.getRootFrame(), nodeViewers, listeners,
                     zooInspectorManager, iconResource);
+            nvd.setLocationRelativeTo(this);
             nvd.setVisible(true);
         });
         toolbar.addActionListener(Toolbar.Button.about, e -> {
-            ZooInspectorAboutDialog zicpd = new ZooInspectorAboutDialog(
-                    JOptionPane.getRootFrame(), iconResource);
+            ZooInspectorAboutDialog zicpd = new ZooInspectorAboutDialog(JOptionPane.getRootFrame(), iconResource);
+            zicpd.setLocationRelativeTo(this);
             zicpd.setVisible(true);
         });
         JScrollPane treeScroller = new JScrollPane(treeViewer);
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-                treeScroller, nodeViewersPanel);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, treeScroller, nodeViewersPanel);
         splitPane.setResizeWeight(0.25);
         this.add(splitPane, BorderLayout.CENTER);
         this.add(toolbar.getJToolBar(), BorderLayout.NORTH);
     }
 
     /**
-     * @param connectionProps the {@link Properties} for connecting to the zookeeper
-     *                        instance
+     * @param connectionProps the {@link Properties} for connecting to the zookeeper instance
      */
     public void connect(final Properties connectionProps) {
         SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
@@ -181,15 +173,18 @@ public class ZooInspectorPanel extends JPanel implements NodeViewersChangeListen
 
         };
         worker.execute();
+
         if (wait) {
-            while (!worker.isDone()) {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
+            try {
+                if(worker.get()) {
+                    LoggerFactory
+                            .getLogger()
+                            .info("ZooInspector disconnected from ZooKeeper server");
+                }
+            } catch (InterruptedException | ExecutionException e) {
                     LoggerFactory
                             .getLogger()
                             .error("Error occurred while disconnecting from ZooKeeper server", e);
-                }
             }
         }
     }
@@ -205,11 +200,10 @@ public class ZooInspectorPanel extends JPanel implements NodeViewersChangeListen
     }
 
     /**
-     * @param connectionProps
-     * @throws IOException
+     * @param connectionProps the {@link Properties} for connecting to the zookeeper instance
+     * @throws IOException on error while save
      */
-    public void setdefaultConnectionProps(Properties connectionProps)
-            throws IOException {
+    public void setdefaultConnectionProps(Properties connectionProps) throws IOException {
         this.zooInspectorManager.saveDefaultConnectionFile(connectionProps);
     }
 }

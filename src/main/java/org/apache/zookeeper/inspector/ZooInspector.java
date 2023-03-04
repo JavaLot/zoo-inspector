@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -47,13 +47,13 @@ public class ZooInspector {
             JFrame frame = new JFrame("ZooInspector");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             iconResource = new IconResource();
-            final ZooInspectorPanel zooInspectorPanel = new ZooInspectorPanel(
-                    new ZooInspectorManagerImpl(), iconResource);
+            final ZooInspectorPanel zooInspectorPanel = new ZooInspectorPanel(new ZooInspectorManagerImpl(), iconResource);
             frame.addWindowListener(new WindowAdapter() {
                 @Override
-                public void windowClosed(WindowEvent e) {
-                    super.windowClosed(e);
+                public void windowClosing(WindowEvent e) {
+                    super.windowClosing(e);
                     zooInspectorPanel.disconnect(true);
+                    LoggerFactory.getLogger().info("ZooInspector closing");
                 }
             });
 

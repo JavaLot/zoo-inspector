@@ -65,10 +65,8 @@ public class ZooInspectorConnectionPropertiesDialog extends JDialog {
             Properties lastConnectionProps,
             Pair<Map<String, List<String>>, Map<String, String>> connectionPropertiesTemplateAndLabels,
             final ZooInspectorPanel zooInspectorPanel) {
-        final Map<String, List<String>> connectionPropertiesTemplate = connectionPropertiesTemplateAndLabels
-                .getKey();
-        final Map<String, String> connectionPropertiesLabels = connectionPropertiesTemplateAndLabels
-                .getValue();
+        final Map<String, List<String>> connectionPropertiesTemplate = connectionPropertiesTemplateAndLabels.getKey();
+        final Map<String, String> connectionPropertiesLabels = connectionPropertiesTemplateAndLabels.getValue();
         this.setLayout(new BorderLayout());
         this.setTitle("Connection Settings");
         this.setModal(true);
@@ -155,7 +153,7 @@ public class ZooInspectorConnectionPropertiesDialog extends JDialog {
         buttonsPanel.setLayout(new GridBagLayout());
         JButton loadPropsFileButton = new JButton("Load from file");
         loadPropsFileButton.addActionListener(e -> {
-            int result = fileChooser.showOpenDialog(ZooInspectorConnectionPropertiesDialog.this);
+            int result = fileChooser.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
                 File propsFilePath = fileChooser.getSelectedFile();
                 Properties props = new Properties();
@@ -196,17 +194,12 @@ public class ZooInspectorConnectionPropertiesDialog extends JDialog {
         saveDefaultPropsFileButton.addActionListener(e -> {
             Properties connectionProps = getConnectionProps();
             try {
-                zooInspectorPanel
-                        .setdefaultConnectionProps(connectionProps);
+                zooInspectorPanel.setdefaultConnectionProps(connectionProps);
             } catch (IOException ex) {
-                LoggerFactory
-                        .getLogger()
-                        .error(
-                                "An Error occurred saving the default connection properties file",
-                                ex);
+                LoggerFactory.getLogger().error("An Error occurred saving the default connection properties file",ex);
                 JOptionPane
                         .showMessageDialog(
-                                ZooInspectorConnectionPropertiesDialog.this,
+                                this,
                                 "An Error occurred saving the default connection properties file",
                                 "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -226,7 +219,7 @@ public class ZooInspectorConnectionPropertiesDialog extends JDialog {
         buttonsPanel.add(saveDefaultPropsFileButton, c6);
         JButton okButton = new JButton("OK");
         okButton.addActionListener(e -> {
-            ZooInspectorConnectionPropertiesDialog.this.dispose();
+            dispose();
             Properties connectionProps = getConnectionProps();
             zooInspectorPanel.connect(connectionProps);
         });
@@ -244,7 +237,7 @@ public class ZooInspectorConnectionPropertiesDialog extends JDialog {
         c4.ipady = 0;
         buttonsPanel.add(okButton, c4);
         JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(e -> ZooInspectorConnectionPropertiesDialog.this.dispose());
+        cancelButton.addActionListener(e -> dispose());
         GridBagConstraints c5 = new GridBagConstraints();
         c5.gridx = 3;
         c5.gridy = 0;

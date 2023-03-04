@@ -94,10 +94,8 @@ public class ZooInspectorManagerImpl implements ZooInspectorManager {
     public static final String AUTH_DATA_KEY = "authData";
 
 
-    private static final File defaultNodeViewersFile = new File(
-            "./etc/defaultNodeViewers.cfg");
-    private static final File defaultConnectionFile = new File(
-            "./etc/defaultConnectionSettings.cfg");
+    private static final File defaultNodeViewersFile = new File("./etc/defaultNodeViewers.cfg");
+    private static final File defaultConnectionFile = new File("./etc/defaultConnectionSettings.cfg");
 
     private DataEncryptionManager encryptionManager;
     private String connectString;
@@ -130,20 +128,14 @@ public class ZooInspectorManagerImpl implements ZooInspectorManager {
     public boolean connect(Properties connectionProps) {
         try {
             if (this.zooKeeper == null) {
-                String connectString = connectionProps
-                        .getProperty(CONNECT_STRING);
-                String sessionTimeout = connectionProps
-                        .getProperty(SESSION_TIMEOUT);
-                String encryptionManager = connectionProps
-                        .getProperty(DATA_ENCRYPTION_MANAGER);
-                String authScheme = connectionProps
-                        .getProperty(AUTH_SCHEME_KEY);
-                String authData = connectionProps
-                        .getProperty(AUTH_DATA_KEY);
+                String connectString = connectionProps.getProperty(CONNECT_STRING);
+                String sessionTimeout = connectionProps.getProperty(SESSION_TIMEOUT);
+                String encryptionManager = connectionProps.getProperty(DATA_ENCRYPTION_MANAGER);
+                String authScheme = connectionProps.getProperty(AUTH_SCHEME_KEY);
+                String authData = connectionProps.getProperty(AUTH_DATA_KEY);
 
                 if (connectString == null || sessionTimeout == null) {
-                    throw new IllegalArgumentException(
-                            "Both connect string and session timeout are required.");
+                    throw new IllegalArgumentException("Both connect string and session timeout are required.");
                 }
                 if (encryptionManager == null || encryptionManager.isEmpty()) {
                     this.encryptionManager = new BasicDataEncryptionManager();
@@ -152,11 +144,9 @@ public class ZooInspectorManagerImpl implements ZooInspectorManager {
 
                     if (Arrays.asList(clazz.getInterfaces()).contains(
                             DataEncryptionManager.class)) {
-                        this.encryptionManager = (DataEncryptionManager) Class
-                                .forName(encryptionManager).newInstance();
+                        this.encryptionManager = (DataEncryptionManager) Class.forName(encryptionManager).newInstance();
                     } else {
-                        throw new IllegalArgumentException(
-                                "Data encryption manager must implement DataEncryptionManager interface");
+                        throw new IllegalArgumentException("Data encryption manager must implement DataEncryptionManager interface");
                     }
                 }
                 this.connectString = connectString;
@@ -648,9 +638,7 @@ public class ZooInspectorManagerImpl implements ZooInspectorManager {
          * @throws InterruptedException
          * @throws KeeperException
          */
-        public NodeWatcher(String nodePath, NodeListener nodeListener,
-                           ZooKeeper zookeeper) throws KeeperException,
-                InterruptedException {
+        public NodeWatcher(String nodePath, NodeListener nodeListener, ZooKeeper zookeeper) throws KeeperException, InterruptedException {
             this.nodePath = nodePath;
             this.nodeListener = nodeListener;
             this.zookeeper = zookeeper;
@@ -675,8 +663,7 @@ public class ZooInspectorManagerImpl implements ZooInspectorManager {
                             "Error occurred re-adding node watcher for node " + nodePath, e
                     );
                 }
-                nodeListener.processEvent(event.getPath(), event.getType()
-                        .name(), null);
+                nodeListener.processEvent(event.getPath(), event.getType().name(), null);
             }
         }
 
