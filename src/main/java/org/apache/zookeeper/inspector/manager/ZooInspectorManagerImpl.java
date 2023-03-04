@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -370,16 +371,15 @@ public class ZooInspectorManagerImpl implements ZooInspectorManager {
                 if (s != null) {
                     nodeMeta.put(A_VERSION, String.valueOf(s.getAversion()));
                     nodeMeta.put(C_TIME, String.valueOf(s.getCtime()));
+                    nodeMeta.put(C_TIME + " (local)", new Date(s.getCtime()).toString());
                     nodeMeta.put(C_VERSION, String.valueOf(s.getCversion()));
                     nodeMeta.put(CZXID, String.valueOf(s.getCzxid()));
-                    nodeMeta
-                            .put(DATA_LENGTH, String.valueOf(s.getDataLength()));
-                    nodeMeta.put(EPHEMERAL_OWNER, String.valueOf(s
-                            .getEphemeralOwner()));
+                    nodeMeta.put(DATA_LENGTH, String.valueOf(s.getDataLength()));
+                    nodeMeta.put(EPHEMERAL_OWNER, String.valueOf(s.getEphemeralOwner()));
                     nodeMeta.put(M_TIME, String.valueOf(s.getMtime()));
+                    nodeMeta.put(M_TIME + " (local)", new Date(s.getMtime()).toString());
                     nodeMeta.put(MZXID, String.valueOf(s.getMzxid()));
-                    nodeMeta.put(NUM_CHILDREN, String.valueOf(s
-                            .getNumChildren()));
+                    nodeMeta.put(NUM_CHILDREN, String.valueOf(s.getNumChildren()));
                     nodeMeta.put(PZXID, String.valueOf(s.getPzxid()));
                     nodeMeta.put(VERSION, String.valueOf(s.getVersion()));
                 }
