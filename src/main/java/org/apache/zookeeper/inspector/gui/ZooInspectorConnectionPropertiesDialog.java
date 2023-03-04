@@ -24,6 +24,8 @@ import java.awt.Insets;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -153,6 +155,8 @@ public class ZooInspectorConnectionPropertiesDialog extends JDialog {
         buttonsPanel.setLayout(new GridBagLayout());
         JButton loadPropsFileButton = new JButton("Load from file");
         loadPropsFileButton.addActionListener(e -> {
+            Path dir = Paths.get(".", "etc");
+            fileChooser.setCurrentDirectory(dir.toFile());
             int result = fileChooser.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
                 File propsFilePath = fileChooser.getSelectedFile();
