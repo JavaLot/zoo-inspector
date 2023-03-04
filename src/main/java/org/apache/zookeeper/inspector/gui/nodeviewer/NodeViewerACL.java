@@ -89,11 +89,11 @@ public class NodeViewerACL extends ZooInspectorNodeViewer {
 
                 @Override
                 protected void done() {
-                    List<Map<String, String>> acls = null;
+                    List<Map<String, String>> acls;
                     try {
                         acls = get();
                     } catch (InterruptedException | ExecutionException e) {
-                        acls = new ArrayList<Map<String, String>>();
+                        acls = new ArrayList<>();
                         LoggerFactory.getLogger().error(
                                 "Error retrieving ACL Information for node: "
                                         + NodeViewerACL.this.selectedNode, e);

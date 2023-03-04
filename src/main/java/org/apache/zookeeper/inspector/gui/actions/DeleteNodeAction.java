@@ -3,7 +3,10 @@ package org.apache.zookeeper.inspector.gui.actions;
 import org.apache.zookeeper.inspector.gui.ZooInspectorTreeViewer;
 import org.apache.zookeeper.inspector.manager.ZooInspectorManager;
 
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
