@@ -85,31 +85,24 @@ public class NodeViewerMetaData extends ZooInspectorNodeViewer {
             SwingWorker<Map<String, String>, Void> worker = new SwingWorker<Map<String, String>, Void>() {
 
                 @Override
-                protected Map<String, String> doInBackground() throws Exception {
+                protected Map<String, String> doInBackground() {
                     return NodeViewerMetaData.this.zooInspectorManager
                             .getNodeMeta(NodeViewerMetaData.this.selectedNode);
                 }
 
                 @Override
                 protected void done() {
-                    Map<String, String> data = null;
+                    Map<String, String> data;
                     try {
                         data = get();
-                    } catch (InterruptedException e) {
-                        data = new HashMap<String, String>();
-                        LoggerFactory.getLogger().error(
-                                "Error retrieving meta data for node: "
-                                        + NodeViewerMetaData.this.selectedNode,
-                                e);
-                    } catch (ExecutionException e) {
-                        data = new HashMap<String, String>();
+                    } catch (InterruptedException | ExecutionException e) {
+                        data = new HashMap<>();
                         LoggerFactory.getLogger().error(
                                 "Error retrieving meta data for node: "
                                         + NodeViewerMetaData.this.selectedNode,
                                 e);
                     }
-                    NodeViewerMetaData.this.metaDataPanel
-                            .setLayout(new GridBagLayout());
+                    NodeViewerMetaData.this.metaDataPanel.setLayout(new GridBagLayout());
                     JPanel infoPanel = new JPanel();
                     infoPanel.setBackground(Color.WHITE);
                     infoPanel.setLayout(new GridBagLayout());
@@ -178,9 +171,7 @@ public class NodeViewerMetaData extends ZooInspectorNodeViewer {
      * (org.apache.zookeeper.inspector.manager.ZooInspectorNodeManager)
      */
     @Override
-    public void setZooInspectorManager(
-            ZooInspectorNodeManager zooInspectorManager) {
+    public void setZooInspectorManager(ZooInspectorNodeManager zooInspectorManager) {
         this.zooInspectorManager = zooInspectorManager;
     }
-
 }

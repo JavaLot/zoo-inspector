@@ -19,8 +19,6 @@ package org.apache.zookeeper.inspector.gui.nodeviewer;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -68,8 +66,7 @@ public abstract class ZooInspectorNodeViewer extends JPanel implements
      * java.awt.datatransfer.Transferable#getTransferData(java.awt.datatransfer
      * .DataFlavor)
      */
-    public Object getTransferData(DataFlavor flavor)
-            throws UnsupportedFlavorException, IOException {
+    public Object getTransferData(DataFlavor flavor) {
         if (flavor.equals(nodeViewerDataFlavor)) {
             return this.getClass().getCanonicalName();
         } else {
@@ -124,15 +121,8 @@ public abstract class ZooInspectorNodeViewer extends JPanel implements
         if (getClass() != obj.getClass())
             return false;
         ZooInspectorNodeViewer other = (ZooInspectorNodeViewer) obj;
-        if (getClass().getCanonicalName() != other.getClass()
-                .getCanonicalName()) {
-            return false;
-        }
         if (getTitle() == null) {
-            if (other.getTitle() != null)
-                return false;
-        } else if (!getTitle().equals(other.getTitle()))
-            return false;
-        return true;
+            return other.getTitle() == null;
+        } else return getTitle().equals(other.getTitle());
     }
 }
