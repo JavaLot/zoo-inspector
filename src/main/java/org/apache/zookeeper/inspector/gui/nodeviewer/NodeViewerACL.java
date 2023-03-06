@@ -45,9 +45,6 @@ public class NodeViewerACL extends ZooInspectorNodeViewer {
     private final JPanel aclDataPanel;
     private String selectedNode;
 
-    /**
-	 * 
-	 */
     public NodeViewerACL() {
         this.setLayout(new BorderLayout());
         this.aclDataPanel = new JPanel();
@@ -59,9 +56,7 @@ public class NodeViewerACL extends ZooInspectorNodeViewer {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.apache.zookeeper.inspector.gui.nodeviewer.ZooInspectorNodeViewer#
-     * getTitle()
+     * @see org.apache.zookeeper.inspector.gui.nodeviewer.ZooInspectorNodeViewer#getTitle()
      */
     @Override
     public String getTitle() {
@@ -84,7 +79,7 @@ public class NodeViewerACL extends ZooInspectorNodeViewer {
 
                 @Override
                 protected List<Map<String, String>> doInBackground() {
-                    return NodeViewerACL.this.zooInspectorManager.getACLs(NodeViewerACL.this.selectedNode);
+                    return zooInspectorManager.getACLs(selectedNode);
                 }
 
                 @Override
@@ -96,15 +91,14 @@ public class NodeViewerACL extends ZooInspectorNodeViewer {
                         acls = new ArrayList<>();
                         LoggerFactory.getLogger().error(
                                 "Error retrieving ACL Information for node: "
-                                        + NodeViewerACL.this.selectedNode, e);
+                                        + selectedNode, e);
                     }
                     aclDataPanel.setLayout(new GridBagLayout());
                     int j = 0;
                     for (Map<String, String> data : acls) {
                         int rowPos = 2 * j + 1;
                         JPanel aclPanel = new JPanel();
-                        aclPanel.setBorder(BorderFactory
-                                .createLineBorder(Color.BLACK));
+                        aclPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                         aclPanel.setBackground(Color.WHITE);
                         aclPanel.setLayout(new GridBagLayout());
                         int i = 0;
@@ -113,47 +107,16 @@ public class NodeViewerACL extends ZooInspectorNodeViewer {
                             JLabel label = new JLabel(entry.getKey());
                             JTextField text = new JTextField(entry.getValue());
                             text.setEditable(false);
-                            GridBagConstraints c1 = new GridBagConstraints();
-                            c1.gridx = 1;
-                            c1.gridy = rowPosACL;
-                            c1.gridwidth = 1;
-                            c1.gridheight = 1;
-                            c1.weightx = 0;
-                            c1.weighty = 0;
-                            c1.anchor = GridBagConstraints.NORTHWEST;
-                            c1.fill = GridBagConstraints.BOTH;
-                            c1.insets = new Insets(5, 5, 5, 5);
-                            c1.ipadx = 0;
-                            c1.ipady = 0;
+                            GridBagConstraints c1 = gbcs(1, rowPosACL,0, 0, GridBagConstraints.BOTH);
                             aclPanel.add(label, c1);
-                            GridBagConstraints c2 = new GridBagConstraints();
-                            c2.gridx = 3;
-                            c2.gridy = rowPosACL;
-                            c2.gridwidth = 1;
-                            c2.gridheight = 1;
-                            c2.weightx = 0;
-                            c2.weighty = 0;
-                            c2.anchor = GridBagConstraints.NORTHWEST;
-                            c2.fill = GridBagConstraints.BOTH;
-                            c2.insets = new Insets(5, 5, 5, 5);
-                            c2.ipadx = 0;
-                            c2.ipady = 0;
+                            GridBagConstraints c2 = gbcs(3, rowPosACL,0, 0, GridBagConstraints.BOTH);
                             aclPanel.add(text, c2);
                             i++;
                         }
-                        GridBagConstraints c = new GridBagConstraints();
-                        c.gridx = 1;
-                        c.gridy = rowPos;
-                        c.gridwidth = 1;
-                        c.gridheight = 1;
-                        c.weightx = 1;
-                        c.weighty = 1;
-                        c.anchor = GridBagConstraints.NORTHWEST;
-                        c.fill = GridBagConstraints.NONE;
-                        c.insets = new Insets(5, 5, 5, 5);
-                        c.ipadx = 0;
-                        c.ipady = 0;
+
+                        GridBagConstraints c = gbcs(1, rowPos,1, 1, GridBagConstraints.NONE);
                         aclDataPanel.add(aclPanel, c);
+                        j++;
                     }
                     NodeViewerACL.this.aclDataPanel.revalidate();
                     NodeViewerACL.this.aclDataPanel.repaint();
@@ -163,18 +126,31 @@ public class NodeViewerACL extends ZooInspectorNodeViewer {
         }
     }
 
+    private GridBagConstraints gbcs(int gridX, int rowPosACL, int weightX, int weightY, int fill) {
+        GridBagConstraints result = new GridBagConstraints();
+        result.gridx = gridX;
+        result.gridy = rowPosACL;
+        result.gridwidth = 1;
+        result.gridheight = 1;
+        result.weightx = weightX;
+        result.weighty = weightY;
+        result.anchor = GridBagConstraints.NORTHWEST;
+        result.fill = fill;
+        result.insets = new Insets(5, 5, 5, 5);
+        result.ipadx = 0;
+        result.ipady = 0;
+
+        return result;
+    }
+
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.apache.zookeeper.inspector.gui.nodeviewer.ZooInspectorNodeViewer#
-     * setZooInspectorManager
+     * @see org.apache.zookeeper.inspector.gui.nodeviewer.ZooInspectorNodeViewer#setZooInspectorManager
      * (org.apache.zookeeper.inspector.manager.ZooInspectorNodeManager)
      */
     @Override
-    public void setZooInspectorManager(
-            ZooInspectorNodeManager zooInspectorManager) {
+    public void setZooInspectorManager(ZooInspectorNodeManager zooInspectorManager) {
         this.zooInspectorManager = zooInspectorManager;
     }
-
 }
