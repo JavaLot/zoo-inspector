@@ -19,8 +19,6 @@ package org.apache.zookeeper.inspector.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -67,28 +65,18 @@ public class ZooInspectorTreeViewer extends JPanel implements NodeListener {
     private final ImageIcon toasterIcon;
 
     /**
-     * @param zooInspectorManager
-     *            - the {@link ZooInspectorManager} for the application
-     * @param listener
-     *            - the {@link TreeSelectionListener} to listen for changes in
-     *            the selected node on the node tree
+     * @param zooInspectorManager - the {@link ZooInspectorManager} for the application
+     * @param listener - the {@link TreeSelectionListener} to listen for changes in the selected node on the node tree
      */
-    public ZooInspectorTreeViewer(
-            final ZooInspectorManager zooInspectorManager,
-            TreeSelectionListener listener,
-            IconResource iconResource) {
+    public ZooInspectorTreeViewer(final ZooInspectorManager zooInspectorManager, TreeSelectionListener listener, IconResource iconResource) {
 
-        this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_MASK), "deleteNode");
+        this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_MASK), "deleteNode");
 
-        this.getActionMap().put("deleteNode",
-                new DeleteNodeAction(this, this, zooInspectorManager));
+        this.getActionMap().put("deleteNode", new DeleteNodeAction(this, this, zooInspectorManager));
 
-        this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK), "addNode");
+        this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK), "addNode");
 
-        this.getActionMap().put("addNode",
-                new AddNodeAction(this, this, zooInspectorManager));
+        this.getActionMap().put("addNode", new AddNodeAction(this, this, zooInspectorManager));
 
         this.zooInspectorManager = zooInspectorManager;
         this.setLayout(new BorderLayout());
@@ -106,20 +94,14 @@ public class ZooInspectorTreeViewer extends JPanel implements NodeListener {
         this.toasterManager.setMessageColor(Color.BLACK);
         this.toasterManager.setToasterColor(Color.WHITE);
         toasterIcon = iconResource.get(IconResource.ICON_INFORMATION,"");
-        addNotify.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                List<String> selectedNodes = getSelectedNodes();
-                zooInspectorManager.addWatchers(selectedNodes,
-                        ZooInspectorTreeViewer.this);
-            }
+        addNotify.addActionListener(e -> {
+            List<String> selectedNodes = getSelectedNodes();
+            zooInspectorManager.addWatchers(selectedNodes,ZooInspectorTreeViewer.this);
         });
-        final JMenuItem removeNotify = new JMenuItem(
-                "Remove Change Notification");
-        removeNotify.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                List<String> selectedNodes = getSelectedNodes();
-                zooInspectorManager.removeWatchers(selectedNodes);
-            }
+        final JMenuItem removeNotify = new JMenuItem("Remove Change Notification");
+        removeNotify.addActionListener(e -> {
+            List<String> selectedNodes = getSelectedNodes();
+            zooInspectorManager.removeWatchers(selectedNodes);
         });
 
         tree = new JTree(new DefaultMutableTreeNode());
@@ -138,9 +120,7 @@ public class ZooInspectorTreeViewer extends JPanel implements NodeListener {
                     popupMenu.add(deleteNode);
                     popupMenu.add(addNotify);
                     popupMenu.add(removeNotify);
-                    popupMenu.show(ZooInspectorTreeViewer.this,
-                            e.getX(),
-                            e.getY());
+                    popupMenu.show(ZooInspectorTreeViewer.this, e.getX(), e.getY());
                 }
             }
         });
@@ -151,7 +131,7 @@ public class ZooInspectorTreeViewer extends JPanel implements NodeListener {
      * Refresh the tree view
      */
     public void refreshView() {
-        final Set<TreePath> expandedNodes = new LinkedHashSet<TreePath>();
+        final Set<TreePath> expandedNodes = new LinkedHashSet<>();
         int rowCount = tree.getRowCount();
         for (int i = 0; i < rowCount; i++) {
             TreePath path = tree.getPathForRow(i);
@@ -160,12 +140,11 @@ public class ZooInspectorTreeViewer extends JPanel implements NodeListener {
             }
         }
         final TreePath[] selectedNodes = tree.getSelectionPaths();
-        SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
 
+        SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
             @Override
-            protected Boolean doInBackground() throws Exception {
-                tree.setModel(new DefaultTreeModel(new ZooInspectorTreeNode(
-                        "/", null)));
+            protected Boolean doInBackground() {
+                tree.setModel(new DefaultTreeModel(new ZooInspectorTreeNode("/", null)));
                 return true;
             }
 
@@ -187,8 +166,7 @@ public class ZooInspectorTreeViewer extends JPanel implements NodeListener {
         tree.setModel(new DefaultTreeModel(new DefaultMutableTreeNode()));
     }
 
-    private static class ZooInspectorTreeCellRenderer extends
-            DefaultTreeCellRenderer {
+    private static class ZooInspectorTreeCellRenderer extends DefaultTreeCellRenderer {
         public ZooInspectorTreeCellRenderer(IconResource iconResource) {
             setLeafIcon(iconResource.get(IconResource.ICON_TREE_LEAF,""));
             setOpenIcon(iconResource.get(IconResource.ICON_TREE_OPEN,""));
@@ -206,8 +184,7 @@ public class ZooInspectorTreeViewer extends JPanel implements NodeListener {
             this.nodePath = nodePath;
             int index = nodePath.lastIndexOf("/");
             if (index == -1) {
-                throw new IllegalArgumentException("Invalid node path"
-                        + nodePath);
+                throw new IllegalArgumentException("Invalid node path" + nodePath);
             }
             this.nodeName = nodePath.substring(index + 1);
         }
@@ -218,10 +195,9 @@ public class ZooInspectorTreeViewer extends JPanel implements NodeListener {
          * @see javax.swing.tree.TreeNode#children()
          */
         public Enumeration<TreeNode> children() {
-            List<String> children = zooInspectorManager
-                    .getChildren(this.nodePath);
+            List<String> children = zooInspectorManager.getChildren(this.nodePath);
             Collections.sort(children);
-            List<TreeNode> returnChildren = new ArrayList<TreeNode>();
+            List<TreeNode> returnChildren = new ArrayList<>();
             for (String child : children) {
                 returnChildren.add(new ZooInspectorTreeNode((this.nodePath
                         .equals("/") ? "" : this.nodePath)
@@ -236,7 +212,7 @@ public class ZooInspectorTreeViewer extends JPanel implements NodeListener {
          * @see javax.swing.tree.TreeNode#getAllowsChildren()
          */
         public boolean getAllowsChildren() {
-            return zooInspectorManager.isAllowsChildren(this.nodePath);
+            return zooInspectorManager.isAllowsChildren(nodePath);
         }
 
         /*
@@ -245,12 +221,9 @@ public class ZooInspectorTreeViewer extends JPanel implements NodeListener {
          * @see javax.swing.tree.TreeNode#getChildAt(int)
          */
         public TreeNode getChildAt(int childIndex) {
-            String child = zooInspectorManager.getNodeChild(this.nodePath,
-                    childIndex);
+            String child = zooInspectorManager.getNodeChild(nodePath, childIndex);
             if (child != null) {
-                return new ZooInspectorTreeNode((this.nodePath.equals("/") ? ""
-                        : this.nodePath)
-                        + "/" + child, this);
+                return new ZooInspectorTreeNode((nodePath.equals("/") ? "": this.nodePath) + "/" + child, this);
             }
             return null;
         }
@@ -261,7 +234,7 @@ public class ZooInspectorTreeViewer extends JPanel implements NodeListener {
          * @see javax.swing.tree.TreeNode#getChildCount()
          */
         public int getChildCount() {
-            return zooInspectorManager.getNumChildren(this.nodePath);
+            return zooInspectorManager.getNumChildren(nodePath);
         }
 
         /*
@@ -270,7 +243,7 @@ public class ZooInspectorTreeViewer extends JPanel implements NodeListener {
          * @see javax.swing.tree.TreeNode#getIndex(javax.swing.tree.TreeNode)
          */
         public int getIndex(TreeNode node) {
-            return zooInspectorManager.getNodeIndex(this.nodePath);
+            return zooInspectorManager.getNodeIndex(nodePath);
         }
 
         /*
@@ -279,7 +252,7 @@ public class ZooInspectorTreeViewer extends JPanel implements NodeListener {
          * @see javax.swing.tree.TreeNode#getParent()
          */
         public TreeNode getParent() {
-            return this.parent;
+            return parent;
         }
 
         /*
@@ -288,7 +261,7 @@ public class ZooInspectorTreeViewer extends JPanel implements NodeListener {
          * @see javax.swing.tree.TreeNode#isLeaf()
          */
         public boolean isLeaf() {
-            return !zooInspectorManager.hasChildren(this.nodePath);
+            return !zooInspectorManager.hasChildren(nodePath);
         }
 
         @Override
@@ -301,10 +274,8 @@ public class ZooInspectorTreeViewer extends JPanel implements NodeListener {
             final int prime = 31;
             int result = 1;
             result = prime * result + getOuterType().hashCode();
-            result = prime * result
-                    + ((nodePath == null) ? 0 : nodePath.hashCode());
-            result = prime * result
-                    + ((parent == null) ? 0 : parent.hashCode());
+            result = prime * result + ((nodePath == null) ? 0 : nodePath.hashCode());
+            result = prime * result + ((parent == null) ? 0 : parent.hashCode());
             return result;
         }
 
@@ -325,11 +296,8 @@ public class ZooInspectorTreeViewer extends JPanel implements NodeListener {
             } else if (!nodePath.equals(other.nodePath))
                 return false;
             if (parent == null) {
-                if (other.parent != null)
-                    return false;
-            } else if (!parent.equals(other.parent))
-                return false;
-            return true;
+                return other.parent == null;
+            } else return parent.equals(other.parent);
         }
 
         private ZooInspectorTreeViewer getOuterType() {
@@ -343,7 +311,7 @@ public class ZooInspectorTreeViewer extends JPanel implements NodeListener {
      */
     public List<String> getSelectedNodes() {
         TreePath[] paths = tree.getSelectionPaths();
-        List<String> selectedNodes = new ArrayList<String>();
+        List<String> selectedNodes = new ArrayList<>();
         if (paths != null) {
             for (TreePath path : paths) {
                 StringBuilder sb = new StringBuilder();
@@ -352,7 +320,7 @@ public class ZooInspectorTreeViewer extends JPanel implements NodeListener {
                     String nodeName = o.toString();
                     if (nodeName.length() > 0) {
                         sb.append("/");
-                        sb.append(o.toString());
+                        sb.append(o);
                     }
                 }
                 selectedNodes.add(sb.toString());
@@ -364,12 +332,9 @@ public class ZooInspectorTreeViewer extends JPanel implements NodeListener {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.apache.zookeeper.inspector.manager.NodeListener#processEvent(java
-     * .lang.String, java.lang.String, java.util.Map)
+     * @see org.apache.zookeeper.inspector.manager.NodeListener#processEvent(java.lang.String, java.lang.String, java.util.Map)
      */
-    public void processEvent(String nodePath, String eventType,
-            Map<String, String> eventInfo) {
+    public void processEvent(String nodePath, String eventType, Map<String, String> eventInfo) {
         StringBuilder sb = new StringBuilder();
         sb.append("Node: ");
         sb.append(nodePath);
