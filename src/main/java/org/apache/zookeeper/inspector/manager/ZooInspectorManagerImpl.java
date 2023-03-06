@@ -39,16 +39,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * A default implementation of {@link ZooInspectorManager} for connecting to
@@ -296,40 +287,24 @@ public class ZooInspectorManagerImpl implements ZooInspectorManager {
                         Map<String, String> aclMap = new LinkedHashMap<>();
                         aclMap.put(ACL_SCHEME, acl.getId().getScheme());
                         aclMap.put(ACL_ID, acl.getId().getId());
-                        StringBuilder sb = new StringBuilder();
+                        StringJoiner sb = new StringJoiner(", ");
                         int perms = acl.getPerms();
-                        boolean addedPerm = false;
+
                         if ((perms & Perms.READ) == Perms.READ) {
-                            sb.append("Read");
-                            addedPerm = true;
+                            sb.add("Read");
                         }
-                        if (addedPerm) {
-                            sb.append(", ");
-                        }
+
                         if ((perms & Perms.WRITE) == Perms.WRITE) {
-                            sb.append("Write");
-                            addedPerm = true;
-                        }
-                        if (addedPerm) {
-                            sb.append(", ");
+                            sb.add("Write");
                         }
                         if ((perms & Perms.CREATE) == Perms.CREATE) {
-                            sb.append("Create");
-                            addedPerm = true;
-                        }
-                        if (addedPerm) {
-                            sb.append(", ");
+                            sb.add("Create");
                         }
                         if ((perms & Perms.DELETE) == Perms.DELETE) {
-                            sb.append("Delete");
-                            addedPerm = true;
-                        }
-                        if (addedPerm) {
-                            sb.append(", ");
+                            sb.add("Delete");
                         }
                         if ((perms & Perms.ADMIN) == Perms.ADMIN) {
-                            sb.append("Admin");
-                            addedPerm = true;
+                            sb.add("Admin");
                         }
                         aclMap.put(ACL_PERMS, sb.toString());
                         returnACLs.add(aclMap);
@@ -615,7 +590,7 @@ public class ZooInspectorManagerImpl implements ZooInspectorManager {
     /**
      * A Watcher which will re-add itself every time an event is fired
      */
-    public class NodeWatcher implements Watcher {
+    public static class NodeWatcher implements Watcher {
 
         private final String nodePath;
         private final NodeListener nodeListener;
@@ -633,20 +608,21 @@ public class ZooInspectorManagerImpl implements ZooInspectorManager {
             this.nodePath = nodePath;
             this.nodeListener = nodeListener;
             this.zookeeper = zookeeper;
-            Stat s = zooKeeper.exists(nodePath, this);
-            if (s != null) {
-                zookeeper.getChildren(nodePath, this);
-            }
+            Stat s = this.zookeeper.exists(nodePath, this);
+//            if (s != null) {
+//                zookeeper.getChildren(nodePath, this);
+//            }
         }
 
+        @Override
         public void process(WatchedEvent event) {
             if (!closed) {
                 try {
                     if (event.getType() != EventType.NodeDeleted) {
-                        Stat s = zooKeeper.exists(nodePath, this);
-                        if (s != null) {
-                            zookeeper.getChildren(nodePath, this);
-                        }
+                        Stat s = this.zookeeper.exists(nodePath, this);
+//                        if (s != null) {
+//                            zookeeper.getChildren(nodePath, this);
+//                        }
                     }
                 } catch (Exception e) {
                     LoggerFactory.getLogger().error(
@@ -663,7 +639,6 @@ public class ZooInspectorManagerImpl implements ZooInspectorManager {
         public void stop() {
             this.closed = true;
         }
-
     }
 
     /*
