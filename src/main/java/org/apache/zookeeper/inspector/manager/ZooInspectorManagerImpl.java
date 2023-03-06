@@ -142,8 +142,7 @@ public class ZooInspectorManagerImpl implements ZooInspectorManager {
                 } else {
                     Class<?> clazz = Class.forName(encryptionManager);
 
-                    if (Arrays.asList(clazz.getInterfaces()).contains(
-                            DataEncryptionManager.class)) {
+                    if (Arrays.asList(clazz.getInterfaces()).contains(DataEncryptionManager.class)) {
                         this.encryptionManager = (DataEncryptionManager) Class.forName(encryptionManager).newInstance();
                     } else {
                         throw new IllegalArgumentException("Data encryption manager must implement DataEncryptionManager interface");
@@ -208,7 +207,6 @@ public class ZooInspectorManagerImpl implements ZooInspectorManager {
             return nodesCache.getChildren(nodePath);
         }
         return null;
-
     }
 
     /*
@@ -450,13 +448,10 @@ public class ZooInspectorManagerImpl implements ZooInspectorManager {
         try {
             if (zooKeeper != null) {
 
-                sessionMeta.put(SESSION_ID, String.valueOf(zooKeeper
-                        .getSessionId()));
-                sessionMeta.put(SESSION_STATE, String.valueOf(zooKeeper
-                        .getState().toString()));
+                sessionMeta.put(SESSION_ID, String.valueOf(zooKeeper.getSessionId()));
+                sessionMeta.put(SESSION_STATE, String.valueOf(zooKeeper.getState().toString()));
                 sessionMeta.put(CONNECT_STRING, this.connectString);
-                sessionMeta.put(SESSION_TIMEOUT, String
-                        .valueOf(this.sessionTimeout));
+                sessionMeta.put(SESSION_TIMEOUT, String.valueOf(this.sessionTimeout));
             }
         } catch (Exception e) {
             LoggerFactory.getLogger().error(
@@ -578,16 +573,13 @@ public class ZooInspectorManagerImpl implements ZooInspectorManager {
      * (java.util.Collection,
      * org.apache.zookeeper.inspector.manager.NodeListener)
      */
-    public void addWatchers(Collection<String> selectedNodes,
-                            NodeListener nodeListener) {
-        // add watcher for each node and add node to collection of
-        // watched nodes
+    public void addWatchers(Collection<String> selectedNodes, NodeListener nodeListener) {
+        // add watcher for each node and add node to collection of watched nodes
         if (connected) {
             for (String node : selectedNodes) {
                 if (!watchers.containsKey(node)) {
                     try {
-                        watchers.put(node, new NodeWatcher(node, nodeListener,
-                                zooKeeper));
+                        watchers.put(node, new NodeWatcher(node, nodeListener, zooKeeper));
                     } catch (Exception e) {
                         LoggerFactory.getLogger().error(
                                 "Error occurred adding node watcher for node: "
@@ -607,8 +599,7 @@ public class ZooInspectorManagerImpl implements ZooInspectorManager {
      * (java.util.Collection)
      */
     public void removeWatchers(Collection<String> selectedNodes) {
-        // remove watcher for each node and remove node from
-        // collection of watched nodes
+        // remove watcher for each node and remove node from collection of watched nodes
         if (connected) {
             for (String node : selectedNodes) {
                 if (watchers.containsKey(node)) {
@@ -652,7 +643,6 @@ public class ZooInspectorManagerImpl implements ZooInspectorManager {
             if (!closed) {
                 try {
                     if (event.getType() != EventType.NodeDeleted) {
-
                         Stat s = zooKeeper.exists(nodePath, this);
                         if (s != null) {
                             zookeeper.getChildren(nodePath, this);
@@ -718,7 +708,7 @@ public class ZooInspectorManagerImpl implements ZooInspectorManager {
             defaultAuthValue = props.getProperty(AUTH_DATA_KEY) == null ? ""
                     : props.getProperty(AUTH_DATA_KEY);
         } else {
-            defaultEncryptionManager = "org.apache.zookeeper.inspector.encryption.BasicDataEncryptionManager";
+            defaultEncryptionManager = null;
             defaultTimeout = "5000";
             defaultHosts = "localhost:2181";
             defaultAuthScheme = "";

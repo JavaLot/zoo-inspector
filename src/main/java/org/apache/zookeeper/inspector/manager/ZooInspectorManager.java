@@ -60,17 +60,13 @@ public interface ZooInspectorManager extends ZooInspectorNodeManager, ZooInspect
     Pair<Map<String, List<String>>, Map<String, String>> getConnectionPropertiesTemplate();
 
     /**
-     * @param selectedNodes
-     *            - the nodes to add the watcher to
-     * @param nodeListener
-     *            - the node listener for this watcher
+     * @param selectedNodes - the nodes to add the watcher to
+     * @param nodeListener - the node listener for this watcher
      */
-    void addWatchers(Collection<String> selectedNodes,
-            NodeListener nodeListener);
+    void addWatchers(Collection<String> selectedNodes, NodeListener nodeListener);
 
     /**
-     * @param selectedNodes
-     *            - the nodes to remove the watchers from
+     * @param selectedNodes - the nodes to remove the watchers from
      */
     void removeWatchers(Collection<String> selectedNodes);
 
@@ -82,52 +78,39 @@ public interface ZooInspectorManager extends ZooInspectorNodeManager, ZooInspect
     List<String> loadNodeViewersFile(File selectedFile) throws IOException;
 
     /**
-     * @param selectedFile
-     *            - the file to save the configuration to
-     * @param nodeViewersClassNames
-     *            - the class names of the node viewers
-     * @throws IOException
-     *             - if the configuration file cannot be saved
+     * @param selectedFile - the file to save the configuration to
+     * @param nodeViewersClassNames - the class names of the node viewers
+     * @throws IOException - if the configuration file cannot be saved
      */
-    void saveNodeViewersFile(File selectedFile,
-            List<String> nodeViewersClassNames) throws IOException;
+    void saveNodeViewersFile(File selectedFile, List<String> nodeViewersClassNames) throws IOException;
 
     /**
-     * @param nodeViewersClassNames
-     *            - the class names of the node viewers
-     * @throws IOException
-     *             - if the default configuration file cannot be loaded
+     * @param nodeViewersClassNames - the class names of the node viewers
+     * @throws IOException - if the default configuration file cannot be loaded
      */
-    void setDefaultNodeViewerConfiguration(
-            List<String> nodeViewersClassNames) throws IOException;
+    void setDefaultNodeViewerConfiguration(List<String> nodeViewersClassNames) throws IOException;
 
     /**
-     * @return nodeViewers - the class names of the node viewers from the
-     *         configuration
-     * @throws IOException
-     *             - if the default configuration file cannot be loaded
+     * @return nodeViewers - the class names of the node viewers from the configuration
+     * @throws IOException - if the default configuration file cannot be loaded
      */
     List<String> getDefaultNodeViewerConfiguration() throws IOException;
 
     /**
-     * @param connectionProps
-     *            - the connection properties last used to connect to the
-     *            zookeeeper instance
+     * @param connectionProps - the connection properties last used to connect to the
+     *                        zookeeper instance
      */
     void setLastConnectionProps(Properties connectionProps);
 
     /**
      * @return last connection Properties - the connection properties last used
-     *         to connect to the zookeeeper instance
+     * to connect to the zookeeper instance
      */
     Properties getLastConnectionProps();
 
     /**
-     * @param props
-     *            - the properties to use as the default connection settings
-     * @throws IOException
-     *             - if the default configuration file cannot be saved
+     * @param props - the properties to use as the default connection settings
+     * @throws IOException - if the default configuration file cannot be saved
      */
     void saveDefaultConnectionFile(Properties props) throws IOException;
-
 }

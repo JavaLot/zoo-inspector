@@ -198,7 +198,7 @@ public class ZooInspectorConnectionPropertiesDialog extends JDialog {
         saveDefaultPropsFileButton.addActionListener(e -> {
             Properties connectionProps = getConnectionProps();
             try {
-                zooInspectorPanel.setdefaultConnectionProps(connectionProps);
+                zooInspectorPanel.setDefaultConnectionProps(connectionProps);
             } catch (IOException ex) {
                 LoggerFactory.getLogger().error("An Error occurred saving the default connection properties file",ex);
                 JOptionPane

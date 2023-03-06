@@ -207,7 +207,7 @@ public class ZooInspectorPanel extends JPanel implements NodeViewersChangeListen
      * @param connectionProps the {@link Properties} for connecting to the zookeeper instance
      * @throws IOException on error while save
      */
-    public void setdefaultConnectionProps(Properties connectionProps) throws IOException {
+    public void setDefaultConnectionProps(Properties connectionProps) throws IOException {
         this.zooInspectorManager.saveDefaultConnectionFile(connectionProps);
     }
 }
