@@ -22,16 +22,14 @@ package org.apache.zookeeper.inspector.encryption;
  */
 public interface DataEncryptionManager {
     /**
-     * @param data
-     *            - the data to be encrypted
+     * @param data - the data to be encrypted
      * @return the encrypted data
      * @throws Exception
      */
     public byte[] encryptData(String data) throws Exception;
 
     /**
-     * @param encrypted
-     *            - the data to be decrypted
+     * @param encrypted - the data to be decrypted
      * @return the decrypted data
      * @throws Exception
      */

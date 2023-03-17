@@ -29,7 +29,7 @@ public class BasicDataEncryptionManager implements DataEncryptionManager {
      * org.apache.zookeeper.inspector.encryption.DataEncryptionManager#decryptData
      * (byte[])
      */
-    public String decryptData(byte[] encrypted) throws Exception {
+    public String decryptData(byte[] encrypted) {
         return encrypted != null? new String(encrypted): null;
     }
 
@@ -40,7 +40,7 @@ public class BasicDataEncryptionManager implements DataEncryptionManager {
      * org.apache.zookeeper.inspector.encryption.DataEncryptionManager#encryptData
      * (java.lang.String)
      */
-    public byte[] encryptData(String data) throws Exception {
+    public byte[] encryptData(String data) {
         if (data == null) {
             return new byte[0];
         }

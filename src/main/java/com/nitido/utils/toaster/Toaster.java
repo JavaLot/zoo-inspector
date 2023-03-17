@@ -12,7 +12,7 @@
  * with a notification message and/or an associated image
  * (like msn online/offline notifications).
  *
- * Toaster panel in windows system follow the taskbar; So if
+ * Toaster panel in Windows system follow the taskbar; So if
  * the taskbar is into the bottom the panel coming from the bottom
  * and if the taskbar is on the top then the panel coming from the top.
  *
@@ -36,7 +36,13 @@
  */
 package com.nitido.utils.toaster;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.Window;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -110,7 +116,7 @@ public class Toaster {
         useAlwaysOnTop = true;
         // Verify AlwaysOnTop Flag...
         try {
-            Window.class.getMethod("setAlwaysOnTop", Boolean.class);
+            Window.class.getMethod("setAlwaysOnTop", boolean.class);
         } catch (Exception e) {
             useAlwaysOnTop = false;
         }
@@ -188,36 +194,34 @@ public class Toaster {
 
 
         /**
-         * Animate vertically the toaster. The toaster could be moved from bottom
-         * to upper or to upper to bottom
+         * Animate vertically the toaster. The toaster could be moved from bottom to upper or to upper to bottom
          *
-         * @param posx
-         * @param fromY
-         * @param toY
+         * @param posX position x coordinate
+         * @param fromY position from y coordinate
+         * @param toY position to y coordinate
          * @throws InterruptedException
          */
-        protected void animateVertically(int posx, int fromY, int toY) throws InterruptedException {
+        protected void animateVertically(int posX, int fromY, int toY) throws InterruptedException {
 
-            toaster.setLocation(posx, fromY);
+            toaster.setLocation(posX, fromY);
             if (toY < fromY) {
                 for (int i = fromY; i > toY; i -= step) {
-                    toaster.setLocation(posx, i);
+                    toaster.setLocation(posX, i);
                     Thread.sleep(stepTime);
                 }
             } else {
                 for (int i = fromY; i < toY; i += step) {
-                    toaster.setLocation(posx, i);
+                    toaster.setLocation(posX, i);
                     Thread.sleep(stepTime);
                 }
             }
-            toaster.setLocation(posx, toY);
+            toaster.setLocation(posX, toY);
         }
 
         public void run() {
             try {
                 boolean animateFromBottom = true;
-                GraphicsEnvironment ge = GraphicsEnvironment
-                        .getLocalGraphicsEnvironment();
+                GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
                 Rectangle screenRect = ge.getMaximumWindowBounds();
 
                 int screenHeight = screenRect.height;
@@ -231,10 +235,9 @@ public class Toaster {
 
                 maxToasterInScreen = screenHeight / toasterHeight;
 
+                int posX = screenRect.width - toasterWidth - 1;
 
-                int posx = screenRect.width - toasterWidth - 1;
-
-                toaster.setLocation(posx, screenHeight);
+                toaster.setLocation(posX, screenHeight);
                 toaster.setVisible(true);
                 if (useAlwaysOnTop) {
                     toaster.setAlwaysOnTop(true);
@@ -263,9 +266,9 @@ public class Toaster {
                 maxToaster++;
 
 
-                animateVertically(posx, startYPosition, stopYPosition);
+                animateVertically(posX, startYPosition, stopYPosition);
                 Thread.sleep(displayTime);
-                animateVertically(posx, stopYPosition, startYPosition);
+                animateVertically(posX, stopYPosition, startYPosition);
 
                 currentNumberOfToaster--;
                 toaster.setVisible(false);
@@ -454,6 +457,4 @@ public class Toaster {
     public void setToasterWidth(int toasterWidth) {
         this.toasterWidth = toasterWidth;
     }
-
-
 }
